@@ -15,9 +15,11 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
+      working-directory: ./py-api
       run: |
         python -m pip install --upgrade pip
         pip install pylint
     - name: Analysing the code with pylint
+      working-directory: ./py-api
       run: |
         pylint $(git ls-files '*.py')
