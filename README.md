@@ -22,4 +22,5 @@ A song player that I hope to use for my wedding to my beautiful fiancé. I'm hop
 ### Stretch Front-End Goals
 - Bio/Photo/etc of whoever is speaking (must be selectable from the website)
   - A super stretch goal could be automatically detecting it based on the mic, but eh. data privacy/etc concerns with that one.
-
+- Store info into a SQL database so we don't have to query APIs a ton (in case the venue doesn't have good internet.)
+- Display the song queue
