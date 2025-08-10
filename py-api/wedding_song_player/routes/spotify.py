@@ -2,11 +2,9 @@ import typing as tp
 
 import fastapi
 from fastapi import APIRouter
-from pydantic import BaseModel
 from spotipy import Spotify
 
-from wedding_song_player.models.common import Ack
-from wedding_song_player.models.spotify import SongInfo, SongQueue, TrackObject, CurrentlyPlayingSongInfo, \
+from wedding_song_player.models.spotify import SongQueue, TrackObject, CurrentlyPlayingSongInfo, \
     CurrentlyPlayingTrack
 
 spotify_router: APIRouter = APIRouter(prefix='/spotify', tags=['spotify', 'music'])

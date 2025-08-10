@@ -1,5 +1,3 @@
-import typing as tp
-
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
