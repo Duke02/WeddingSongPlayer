@@ -10,3 +10,83 @@ dependencies = [
     "spotipy>=2.25.1",
     "uvicorn>=0.35.0",
 ]
+
+[dependency-groups]
+dev = [
+    "pylint>=3.3.8",
+]
+
+
+# Pylint configuration generated with ChatGPT.
+[tool.pylint.main]
+# Make Pylint treat everything seriously
+fail-under = 10.0
+jobs = 0
+persistent = true
+suggestion-mode = false
+reports = true
+recursive = true
+
+[tool.pylint.messages_control]
+# Enable all, then selectively disable stuff that's just noise
+enable = [
+    "all"
+]
+disable = [
+    "locally-disabled",
+    "suppressed-message"
+#    "missing-module-docstring",   # keep if you don't want docstring nags
+#    "missing-class-docstring",
+#    "missing-function-docstring"
+]
+
+[tool.pylint.format]
+max-line-length = 88
+max-module-lines = 1000
+indent-string = "    "
+expected-line-ending-format = "LF"
+
+[tool.pylint.similarities]
+min-similarity-lines = 4
+ignore-comments = false
+ignore-docstrings = false
+ignore-imports = false
+
+[tool.pylint.design]
+max-args = 5
+max-attributes = 7
+max-branches = 12
+max-locals = 15
+max-returns = 6
+max-statements = 50
+max-public-methods = 20
+min-public-methods = 1
+max-bool-expr = 3
+
+[tool.pylint.variables]
+allow-global-unused-variables = false
+init-import = false
+
+[tool.pylint.typecheck]
+ignore-mixin-members = false
+generated-members = []
+
+[tool.pylint.classes]
+ignore-none = false
+ignore-mixin-members = false
+
+[tool.pylint.basic]
+good-names = ["i", "j", "k", "x", "y", "z", "id", "_"]
+bad-names = ["foo", "bar", "baz", "data", "tmp"]
+variable-rgx = "^[a-z_][a-z0-9_]{2,30}$"
+argument-rgx = "^[a-z_][a-z0-9_]{2,30}$"
+attr-rgx = "^[a-z_][a-z0-9_]{2,30}$"
+class-rgx = "^[A-Z][a-zA-Z0-9]+$"
+const-rgx = "^[A-Z_][A-Z0-9_]{2,30}$"
+function-rgx = "^[a-z_][a-z0-9_]{2,30}$"
+method-rgx = "^[a-z_][a-z0-9_]{2,30}$"
+module-rgx = "^[a-z_][a-z0-9_]{2,30}$"
+
+[tool.pylint.imports]
+allow-wildcard-with-all = false
+

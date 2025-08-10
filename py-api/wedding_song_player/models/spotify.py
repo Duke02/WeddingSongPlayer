@@ -1,15 +1,27 @@
+"""
+Pydantic models for the Spotify portion of our API.
+"""
+
 import typing as tp
 
 from pydantic import BaseModel, Field
 
 
 class ImageObject(BaseModel):
+    """
+    An ImageObject derived from Spotify's API.
+
+    https://developer.spotify.com/documentation/web-api/reference/get-an-album
+    """
     url: str
     height: int | None
     width: int | None
 
 
 class SongInfo(BaseModel):
+    """
+    Our version of Spotify's TrackObject.
+    """
     song_id: str
     title: str
     artists: list[str]
@@ -19,6 +31,9 @@ class SongInfo(BaseModel):
 
 
 class SimplifiedArtistObject(BaseModel):
+    """
+    Spotify's artist object type from their official API.
+    """
     external_urls: dict[str, str]
     href: str
     id: str
@@ -28,6 +43,9 @@ class SimplifiedArtistObject(BaseModel):
 
 
 class AlbumInfo(BaseModel):
+    """
+    Spotify's Album Info type from their API.
+    """
     album_type: tp.Literal['album', 'single', 'compilation']
     total_tracks: int = Field(gt=0)
     available_markets: list[str]
@@ -70,16 +88,32 @@ class TrackObject(BaseModel):
     is_local: bool = False
 
     def to_song_info(self) -> SongInfo:
-        return SongInfo(song_id=self.id, title=self.title, artists=[a.name for a in self.artists],
-                        album=self.album.name, album_cover=self.album.images[0], genres=[])
+        """
+        Converts this TrackObject to our SongInfo model.
+        :return: The converted SongInfo model.
+        """
+        return SongInfo(song_id=self.id,
+                        title=self.title,
+                        artists=[a.name for a in self.artists],
+                        album=self.album.name,
+                        album_cover=self.album.images[0],
+                        genres=[])
 
 
+# pylint: disable=unused-variable
+# This is used, Pylint just doesn't think so.
 class SongQueue(BaseModel):
+    """
+    Our version of Spotify's /me/player/queue output.
+    """
     currently_playing: SongInfo
     next_songs: list[SongInfo]
 
 
 class CurrentlyPlayingSongInfo(BaseModel):
+    """
+    Our version of Spotify's /me/player/currently-playing output.
+    """
     song_id: str
     song_length: float
     current_song_loc: float
@@ -87,6 +121,12 @@ class CurrentlyPlayingSongInfo(BaseModel):
 
 
 class Device(BaseModel):
+    """
+    Spotify's Device model.
+
+    Part of the output from:
+    https://developer.spotify.com/documentation/web-api/reference/get-the-users-currently-playing-track
+    """
     id: str | None = None
     is_active: bool = False
     is_private_session: bool = False
@@ -98,6 +138,12 @@ class Device(BaseModel):
 
 
 class Context(BaseModel):
+    """
+    Spotify's Context model.
+
+    Part of the output from:
+    https://developer.spotify.com/documentation/web-api/reference/get-the-users-currently-playing-track
+    """
     type: str
     href: str
     external_urls: dict[str, str]
@@ -115,7 +161,8 @@ class CurrentlyPlayingTrack(BaseModel):
     context: Context | None = None
     timestamp: int = Field(ge=0)
     """
-    Unix Millisecond Timestamp when playback state was last changed (play, pause, skip, scrub, new song, etc.).
+    Unix Millisecond Timestamp when playback state was last changed 
+    (play, pause, skip, scrub, new song, etc.).
     """
     progress_ms: int | None
     is_playing: bool
@@ -124,7 +171,13 @@ class CurrentlyPlayingTrack(BaseModel):
     actions: dict[str, bool] = {}
 
     def to_curr_playing_song_info(self) -> CurrentlyPlayingSongInfo | None:
+        """
+        Converts this Spotify object to the respective model for our uses.
+        :return: None if there's nothing playing, a fully filled in model otherwise.
+        """
         if self.item is None:
             return None
-        return CurrentlyPlayingSongInfo(song_id=self.item.id, current_song_loc=self.progress_ms,
-                                        song_length=self.item.duration_ms, song_info=self.item.to_song_info())
+        return CurrentlyPlayingSongInfo(song_id=self.item.id,
+                                        current_song_loc=self.progress_ms,
+                                        song_length=self.item.duration_ms,
+                                        song_info=self.item.to_song_info())

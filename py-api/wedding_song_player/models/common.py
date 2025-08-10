@@ -1,8 +1,3 @@
-from pydantic import BaseModel
-
-
-class Ack(BaseModel):
-    """
-    Acknowledgement to make sure people know we actually did something, we promise.
-    """
-    acknowledged: bool = True
+"""
+Common models that are needed by any API router.
+"""
