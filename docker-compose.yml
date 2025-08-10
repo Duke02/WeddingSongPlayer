@@ -1,0 +1,39 @@
+services:
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./angular:/project
+      - /project/node_modules
+    develop:
+      watch:
+        - action: sync+restart
+          path: .
+          target: /app
+
+  py-api:
+    build:
+      context: py-api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    develop:
+      watch:
+        - action: sync+restart
+          path: .
+          target: /app
+
+  backend:
+    build:
+      context: rust-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    develop:
+      watch:
+        - action: sync+restart
+          path: .
+          target: /app
