@@ -22,9 +22,8 @@ pub enum Language {
     Spanish,
     Japanese,
     French,
-    Other(String)
+    Other(String),
 }
-
 
 #[get("/detect_language/<words>")]
 pub fn detect_language(words: &str) -> Json<Language> {
@@ -33,5 +32,4 @@ pub fn detect_language(words: &str) -> Json<Language> {
     } else {
         Json(Language::Spanish)
     }
-
 }
