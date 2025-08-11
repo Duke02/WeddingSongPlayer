@@ -16,4 +16,8 @@ cargo clippy -- -D warnings
 echo '+cargo fmt -- --check'
 cargo fmt -- --check
 
+cd $ORIG_DIR/py-api
+
+./scripts/lint.sh
+
 cd $ORIG_DIR
